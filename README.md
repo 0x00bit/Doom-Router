@@ -6,12 +6,13 @@ https://openwrt.org/toh/tp-link/tl-wr941nd
 
 
 ## Router (TL-WR941ND v5, OpenWrt 18.06)
-    ./deploy.sh 192.168.1.1       
-    -> http://192.168.1.1:8080
+   1. `cd /tmp && wget https://github.com/0x00bit/Doom-Router/blob/main/doom.tar`
+   2. `tar xf doom.tar` 
+   3. `uhttpd -p 8666 /Doom-Router-main/www/`
 
-if the uhttpd is not avaliable: `httpd -p 8080 -h /tmp/doom`
+if the uhttpd is not avaliable: `httpd -p 8080 -h /tmp/doom/Doom-Router-main/www`
 
-Note: after each reboot, runs the deploy.sh again
+Note: after each reboot, you will need to download it again
 speed: http://HOST:8080/?cycles=20000 (default: max)
 Controls:
 Mouse is not used; keyboad: arrows, Ctrl (shoot), space (use item), Shift (run).
@@ -24,5 +25,4 @@ doom-router/
     wdosbox.js
     wdosbox.wasm.js
     doom.zip            (DOOM.EXE + DOOM1.WAD + DEFAULT.CFG)
-  deploy.sh             
   README.md
