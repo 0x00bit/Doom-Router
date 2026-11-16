@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOOM @ OpenWrt</title>
+<script src="js-dos.js"></script>
+<style>
+  html, body { margin:0; height:100%; background:#000; color:#ddd; font-family:monospace; }
+  #wrap { position:relative; width:100%; height:100%; }
+  canvas { width:100%; height:100%; outline:none; }
+  #msg { position:absolute; left:0; right:0; bottom:0; padding:6px 10px;
+         background:rgba(0,0,0,.7); font-size:13px; pointer-events:none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="jsdos" tabindex="0"></canvas>
+  <div id="msg">Loading...</div>
+</div>
+<script>
+  // Optional: ?cycles=20000 na URL para ajustar a velocidade (padrão: max)
+  var params = new URLSearchParams(location.search);
+  var cycles = params.get("cycles") || "max";
+  var msg = document.getElementById("msg");
+  var canvas = document.getElementById("jsdos");
+
+  function fail(e) {
+    msg.style.pointerEvents = "auto";
+    msg.textContent = "Error: " + (e && e.message ? e.message : e) + "  (check the console, F12)";
+    console.error(e);
+  }
+
+  // Relative paths: works in any port/subdirectory 
+  Dos(canvas, { wdosboxUrl: "wdosbox.js", cycles: cycles })
+    .ready(function (fs, main) {
+      msg.textContent = "Extracting doom.zip…";
+      fs.extract("doom.zip").then(function () {
+        msg.textContent = "Starting DOOM... (arrows = to move, Ctrl = to shoot, Space = to use items, Shift = to run)";
+        return main(["-c", "DOOM.EXE"]);
+      }).then(function (ci) {
+        window.ci = ci;
+        canvas.focus();
+        setTimeout(function () { msg.style.display = "none"; }, 8000);
+      }).catch(fail);
+    }, fail);
+</script>
+</body>
+</html>
