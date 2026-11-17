@@ -19,7 +19,7 @@
   <div id="msg">Loading...</div>
 </div>
 <script>
-  // Optional: ?cycles=20000 na URL para ajustar a velocidade (padrão: max)
+  // Optional: ?cycles=20000 (default: max)
   var params = new URLSearchParams(location.search);
   var cycles = params.get("cycles") || "max";
   var msg = document.getElementById("msg");
